@@ -38,17 +38,17 @@ jobs:
           - name: api
             context: ./backend
             dockerfile: ./backend/Dockerfile
-            image: ghcr.io/benlagrone/lecrown-platform-api
+            image: ghcr.io/benlagrone/lecrown-properties-platform-api
           - name: admin
             context: ./frontend
             dockerfile: ./frontend/admin/Dockerfile
-            image: ghcr.io/benlagrone/lecrown-platform-admin
+            image: ghcr.io/benlagrone/lecrown-properties-platform-admin
             build_args: |
               VITE_API_BASE_URL=/api
           - name: client
             context: ./frontend
             dockerfile: ./frontend/client/Dockerfile
-            image: ghcr.io/benlagrone/lecrown-platform-client
+            image: ghcr.io/benlagrone/lecrown-properties-platform-client
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -563,12 +563,12 @@ jobs:
           PY
 
           COMPOSE=(docker compose -f ops/platform/docker-compose.prod.yml --env-file ops/platform/.env)
-          LECROWNPLATFORM_API_IMAGE="ghcr.io/benlagrone/lecrown-platform-api:sha-${SOURCE_SHA}" \
-          LECROWNPLATFORM_ADMIN_IMAGE="ghcr.io/benlagrone/lecrown-platform-admin:sha-${SOURCE_SHA}" \
+          LECROWNPLATFORM_API_IMAGE="ghcr.io/benlagrone/lecrown-properties-platform-api:sha-${SOURCE_SHA}" \
+          LECROWNPLATFORM_ADMIN_IMAGE="ghcr.io/benlagrone/lecrown-properties-platform-admin:sha-${SOURCE_SHA}" \
           "${COMPOSE[@]}" pull backend frontend
 
-          LECROWNPLATFORM_API_IMAGE="ghcr.io/benlagrone/lecrown-platform-api:sha-${SOURCE_SHA}" \
-          LECROWNPLATFORM_ADMIN_IMAGE="ghcr.io/benlagrone/lecrown-platform-admin:sha-${SOURCE_SHA}" \
+          LECROWNPLATFORM_API_IMAGE="ghcr.io/benlagrone/lecrown-properties-platform-api:sha-${SOURCE_SHA}" \
+          LECROWNPLATFORM_ADMIN_IMAGE="ghcr.io/benlagrone/lecrown-properties-platform-admin:sha-${SOURCE_SHA}" \
           "${COMPOSE[@]}" up -d backend frontend
 
           "${COMPOSE[@]}" ps

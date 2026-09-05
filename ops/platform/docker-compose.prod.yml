@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ${LECROWNPLATFORM_API_IMAGE:-ghcr.io/benlagrone/lecrown-platform-api:latest}
+    image: ${LECROWNPLATFORM_API_IMAGE:-ghcr.io/benlagrone/lecrown-properties-platform-api:latest}
     build:
       context: ../../backend
     restart: unless-stopped
@@ -20,7 +20,7 @@ services:
       retries: 5
 
   frontend:
-    image: ${LECROWNPLATFORM_ADMIN_IMAGE:-ghcr.io/benlagrone/lecrown-platform-admin:latest}
+    image: ${LECROWNPLATFORM_ADMIN_IMAGE:-ghcr.io/benlagrone/lecrown-properties-platform-admin:latest}
     build:
       context: ../../frontend
       dockerfile: admin/Dockerfile
@@ -40,7 +40,7 @@ services:
 
   client-portal:
     profiles: ["client-portal"]
-    image: ${LECROWNPLATFORM_CLIENT_IMAGE:-ghcr.io/benlagrone/lecrown-platform-client:latest}
+    image: ${LECROWNPLATFORM_CLIENT_IMAGE:-ghcr.io/benlagrone/lecrown-properties-platform-client:latest}
     build:
       context: ../../frontend
       dockerfile: client/Dockerfile
