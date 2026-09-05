@@ -12,13 +12,14 @@ export type TrecForm = {
 
 export const TREC_FORMS_RETRIEVED_AT = "2026-09-01";
 export const TREC_FORMS_SOURCE_URL = "https://www.trec.texas.gov/node/34";
-export const TREC_DRIVE_LIBRARY_URL: string | null = null;
+export const TREC_DRIVE_LIBRARY_URL: string | null = "https://drive.google.com/drive/folders/1uAofSackXOND8nMiiWcxhLVPa6pFhipa";
 
 export const TREC_FORMS: TrecForm[] = [
   {
     "category": "Contracts",
     "title": "Amendment to Contract",
     "formId": "39-11",
+    "driveUrl": "https://drive.google.com/file/d/1OXplnDlgb0oLOQrjFoDUhTAH2qGI0f6k/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/amendment",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/39-11.pdf"
@@ -27,6 +28,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contracts",
     "title": "Farm and Ranch Contract",
     "formId": "25-17",
+    "driveUrl": "https://drive.google.com/file/d/1ZvvSPowZRaGJ5P6spVFrcMGISxirebPu/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/farm-and-ranch-contract-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/25-17_4.pdf"
@@ -35,6 +37,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contracts",
     "title": "New Home Contract (Completed Construction)",
     "formId": "24-20",
+    "driveUrl": "https://drive.google.com/file/d/1fP4V9-LZ8nyZ_7rFCkkwZdyoKv9TGxS9/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/new-home-contract-completed-construction-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/24-20_0.pdf"
@@ -43,6 +46,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contracts",
     "title": "New Home Contract (Incomplete Construction)",
     "formId": "23-20",
+    "driveUrl": "https://drive.google.com/file/d/1R0zyUxPMe1K62QbeDyLBNwvT_oMqz9HD/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/new-home-contract-incomplete-construction-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/23-20_3.pdf"
@@ -51,6 +55,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contracts",
     "title": "One to Four Family Residential Contract (Resale)",
     "formId": "20-19",
+    "driveUrl": "https://drive.google.com/file/d/1Kz5Sf-Scygiq_nqJEAX3amYQRqciM_c7/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/one-four-family-residential-contract-resale",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/20-19_4.pdf"
@@ -59,6 +64,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contracts",
     "title": "Residential Condominium Contract (Resale)",
     "formId": "30-18",
+    "driveUrl": "https://drive.google.com/file/d/1s6Jkr3lJD7FkSTmzls1-UMUYOzTgdYQJ/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/residential-condominium-contract-resale-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/30-18_0.pdf"
@@ -67,6 +73,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contracts",
     "title": "Unimproved Property Contract",
     "formId": "9-18",
+    "driveUrl": "https://drive.google.com/file/d/1mmcDucQFa8yPcc5xPpKSNoNpNX1oFy4e/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/unimproved-property-contract-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/9-18_1.pdf"
@@ -75,6 +82,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum Concerning Right to Terminate Due to Lender's Appraisal",
     "formId": "49-1",
+    "driveUrl": "https://drive.google.com/file/d/1iBoT78nd480qyTQCDGyQTLCj-TH-g0iO/view?usp=drivesdk",
     "effectiveDate": "03/01/2019",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-concerning-right-terminate-due-lenders-appraisal-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/49-1.pdf"
@@ -83,6 +91,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum Containing Notice of Obligation to Pay Improvement District Assessment",
     "formId": "53-0",
+    "driveUrl": "https://drive.google.com/file/d/1zCg0YnALlVynPeN_z8oSqmM5Rr0yvzHu/view?usp=drivesdk",
     "effectiveDate": "09/01/2021",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-containing-notice-obligation-pay-improvement-district-assesment",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/53-0.pdf"
@@ -91,6 +100,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for \"Back-Up\" Contract",
     "formId": "11-9",
+    "driveUrl": "https://drive.google.com/file/d/1gbF_TlKdEAJT4m369wXTXLI6TQZ4sW1z/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-back-contract",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/11-9.pdf"
@@ -99,6 +109,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Authorizing Hydrostatic Testing",
     "formId": "48-1",
+    "driveUrl": "https://drive.google.com/file/d/14WITp-RjRE1Wosb6bHc-sWLLcB5l3cld/view?usp=drivesdk",
     "effectiveDate": "03/01/2020",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-authorizing-hydrostatic-testing-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/48-1.pdf"
@@ -107,6 +118,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Coastal Area Property",
     "formId": "33-2",
+    "driveUrl": "https://drive.google.com/file/d/1SBWLBhMgfKBKduwHwifV7IWdozoFD8mP/view?usp=drivesdk",
     "effectiveDate": "12/05/2011",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-coastal-area-property",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/33-2.pdf"
@@ -115,6 +127,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Property in a Propane Gas System Service Area",
     "formId": "47-0",
+    "driveUrl": "https://drive.google.com/file/d/1zdu4Dgi--_6iwVVxyo9SdzbckaV72ONR/view?usp=drivesdk",
     "effectiveDate": "02/01/2014",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-property-propane-gas-system-service-area",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/47-0.pdf"
@@ -123,6 +136,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Property Located Seaward of the Gulf Intracoastal Waterway",
     "formId": "34-4",
+    "driveUrl": "https://drive.google.com/file/d/1R5Hp400XDiEVtEPBHR8kiRnYfhTbPm69/view?usp=drivesdk",
     "effectiveDate": "12/05/2011",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-property-located-seaward-gulf-intercoastal-waterway",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/34-4.pdf"
@@ -131,6 +145,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Property Subject to Mandatory Membership in a Property Owners Association",
     "formId": "36-11",
+    "driveUrl": "https://drive.google.com/file/d/19E8C1BRBX25rPt5mGf0TobdACgyT_RbH/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-property-subject-mandatory-membership-property-owners-association",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/36-11.pdf"
@@ -139,6 +154,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Release of Liability on Assumed Loan and/or Restoration of Seller's VA Entitlement",
     "formId": "12-3",
+    "driveUrl": "https://drive.google.com/file/d/1y0NmT_8Fmwojf6XqMS0alzd2iBgzB2PO/view?usp=drivesdk",
     "effectiveDate": "12/05/2011",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-release-liability-assumed-loan-andor-restoration-sellers-va-entitlement",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/12-3_0.pdf"
@@ -147,6 +163,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Reservation of Oil, Gas, and Other Minerals",
     "formId": "44-3",
+    "driveUrl": "https://drive.google.com/file/d/1Uq-L0b5KDLsyqlisNzVOnL-oCTh1koMZ/view?usp=drivesdk",
     "effectiveDate": "02/01/2023",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-reservation-oil-gas-and-other-minerals-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/44-3_0.pdf"
@@ -155,6 +172,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Sale of Other Property by Buyer",
     "formId": "10-6",
+    "driveUrl": "https://drive.google.com/file/d/1RnTDrDP0hFC04v-4DX4O-g8SmNppsC6C/view?usp=drivesdk",
     "effectiveDate": "12/05/2011",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-sale-other-property-buyer",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/10-6.pdf"
@@ -163,6 +181,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Section 1031 Exchange",
     "formId": "60-0",
+    "driveUrl": "https://drive.google.com/file/d/1BurhsrupUKOgaXPPjy8Wnom6ecSxbPIv/view?usp=drivesdk",
     "effectiveDate": "01/03/2025",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-section-1031-exchange",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/60-0.pdf"
@@ -171,6 +190,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum for Seller's Disclosure of Information on Lead-Based Paint and Lead-Based Paint Hazards as Required by Federal Law",
     "formId": "56-0",
+    "driveUrl": "https://drive.google.com/file/d/1Fxwrh9QOTx8Va0SIMl6e2NffXuN7qRsh/view?usp=drivesdk",
     "effectiveDate": "05/28/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-sellers-disclosure-information-lead-based-paint-and-lead-based-paint-hazards-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/56-0.pdf"
@@ -179,6 +199,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum Regarding Fixture Leases",
     "formId": "52-1",
+    "driveUrl": "https://drive.google.com/file/d/1kymKrydOoCeBxib_3mRTjJUb5y0pWmIu/view?usp=drivesdk",
     "effectiveDate": "02/01/2023",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-regarding-fixture-leases-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/52-1_0.pdf"
@@ -187,6 +208,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Addendum Regarding Residential Leases",
     "formId": "51-1",
+    "driveUrl": "https://drive.google.com/file/d/1CmP-FB30tD0vOzF1c6lKCcjA_DS66VFm/view?usp=drivesdk",
     "effectiveDate": "02/01/2023",
     "trecPageUrl": "https://www.trec.texas.gov/forms/addendum-regarding-residential-leases-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/51-1_0.pdf"
@@ -195,6 +217,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Buyer's Temporary Residential Lease",
     "formId": "16-7",
+    "driveUrl": "https://drive.google.com/file/d/1j2s9O0Mi1J78RbrSRTSc0YFyV-bcrAih/view?usp=drivesdk",
     "effectiveDate": "01/05/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/buyers-temporary-residential-lease",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/16-7.pdf"
@@ -203,6 +226,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Environmental Assessment, Threatened of Endangered Species, and Wetlands Addendum",
     "formId": "28-2",
+    "driveUrl": "https://drive.google.com/file/d/1IBA8pwqB9PKUqxfP8-3lAW7xnfIVYBS0/view?usp=drivesdk",
     "effectiveDate": "12/05/2011",
     "trecPageUrl": "https://www.trec.texas.gov/forms/environmental-assessment-threatened-endangered-species-and-wetlands-addendum",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/28-2.pdf"
@@ -211,6 +235,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Loan Assumption Addendum",
     "formId": "41-3",
+    "driveUrl": "https://drive.google.com/file/d/1yrV3O-Iw4B5_bZR1M7zah292duXnM4wo/view?usp=drivesdk",
     "effectiveDate": "02/01/2023",
     "trecPageUrl": "https://www.trec.texas.gov/forms/loan-assumption-addendum-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/41-3_0.pdf"
@@ -219,6 +244,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Non-Realty Items Addendum",
     "formId": "57-0",
+    "driveUrl": "https://drive.google.com/file/d/1hoMW1P9u1KQaLdAlgXoctAu8-8XkQjm7/view?usp=drivesdk",
     "effectiveDate": "09/03/2025",
     "trecPageUrl": "https://www.trec.texas.gov/forms/non-realty-items-addendum",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/57-0_1.pdf"
@@ -227,6 +253,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Seller Financing Addendum",
     "formId": "26-8",
+    "driveUrl": "https://drive.google.com/file/d/1TjSIxQQr9Y0yD6ltpIhNQb6W1dalnzam/view?usp=drivesdk",
     "effectiveDate": "02/01/2023",
     "trecPageUrl": "https://www.trec.texas.gov/forms/seller-financing-addendum-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/26-8_0.pdf"
@@ -235,6 +262,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Seller's Temporary Residential Lease",
     "formId": "15-7",
+    "driveUrl": "https://drive.google.com/file/d/1R4aYzvIrfgR_PyNBIFRoGcUxhaTrCwew/view?usp=drivesdk",
     "effectiveDate": "01/05/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/sellers-temporary-residential-lease",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/15-7.pdf"
@@ -243,6 +271,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Short Sale Addendum",
     "formId": "45-2",
+    "driveUrl": "https://drive.google.com/file/d/1dpuYQT3hckNaffFZSQmCqtuZiC8_qsce/view?usp=drivesdk",
     "effectiveDate": "04/01/2021",
     "trecPageUrl": "https://www.trec.texas.gov/forms/short-sale-addendum-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/45-2_1.pdf"
@@ -251,6 +280,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Contract Addenda",
     "title": "Third Party Financing Addendum",
     "formId": "40-11",
+    "driveUrl": "https://drive.google.com/file/d/1FFsU-ho0I4snsoemUQZpoxZEQniyla_w/view?usp=drivesdk",
     "effectiveDate": "01/03/2025",
     "trecPageUrl": "https://www.trec.texas.gov/forms/third-party-financing-addendum-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/40-11.pdf"
@@ -259,6 +289,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Condominium Resale Certificate",
     "formId": "32-5",
+    "driveUrl": "https://drive.google.com/file/d/1kF__nQIhcXYCcWKYTKC9bTTayCKA_oP2/view?usp=drivesdk",
     "effectiveDate": "11/25/2024",
     "trecPageUrl": "https://www.trec.texas.gov/forms/condominium-resale-certificate-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/32-5.pdf"
@@ -267,6 +298,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Disclosure of Relationship with Residential Service Company",
     "formId": "RSC-4",
+    "driveUrl": "https://drive.google.com/file/d/1qAbhUlRAmG8Sy1laHceVUL3s7KbXJfvu/view?usp=drivesdk",
     "effectiveDate": "06/11/2023",
     "trecPageUrl": "https://www.trec.texas.gov/forms/disclosure-relationship-residential-service-company",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/RSC-4_1.pdf"
@@ -275,6 +307,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Landlord's Floodplain and Flood Notice",
     "formId": "54-1",
+    "driveUrl": "https://drive.google.com/file/d/1RBNCskYzgzNcXDYaNqbtUXVI0S3Hxygd/view?usp=drivesdk",
     "effectiveDate": "11/26/2025",
     "trecPageUrl": "https://www.trec.texas.gov/forms/landlords-floodplain-and-flood-notice-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/54-1.pdf"
@@ -283,6 +316,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Notice of Buyer's Termination of Contract",
     "formId": "38-8",
+    "driveUrl": "https://drive.google.com/file/d/1Sqhg-Ya03l8A3gFT1kFAgpAQXE8YCu2o/view?usp=drivesdk",
     "effectiveDate": "04/01/2025",
     "trecPageUrl": "https://www.trec.texas.gov/forms/notice-buyers-termination-contract",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/38-8.pdf"
@@ -291,6 +325,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Notice of Seller's Termination of Contract",
     "formId": "50-0",
+    "driveUrl": "https://drive.google.com/file/d/16kc7nLvZV5RSH0N6WohMoviz-UItqTjl/view?usp=drivesdk",
     "effectiveDate": "08/13/2018",
     "trecPageUrl": "https://www.trec.texas.gov/forms/notice-sellers-termination-contract",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/50-0.pdf"
@@ -299,6 +334,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Notice to Prospective Buyer",
     "formId": "58-0",
+    "driveUrl": "https://drive.google.com/file/d/1lxtTv65pCzGxSPIfVSc5E21csK459bgy/view?usp=drivesdk",
     "effectiveDate": "09/03/2025",
     "trecPageUrl": "https://www.trec.texas.gov/forms/notice-prospective-buyer-0",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/58-0.pdf"
@@ -307,6 +343,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Notice to Purchaser of Special Taxing or Assessment District",
     "formId": "59-0",
+    "driveUrl": "https://drive.google.com/file/d/1xXVloOSFBHfQqkA0RqM3x_HjKMTh5S3d/view?usp=drivesdk",
     "effectiveDate": "02/12/2024",
     "trecPageUrl": "https://www.trec.texas.gov/forms/notice-purchaser-special-taxing-or-assessment-district",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/59-0_0.pdf"
@@ -315,6 +352,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Property Inspection Report",
     "formId": "REI 7-6",
+    "driveUrl": "https://drive.google.com/file/d/113j7Ancxq_8i63J_y7jQEPLuW4uywLG0/view?usp=drivesdk",
     "effectiveDate": "02/01/2022",
     "trecPageUrl": "https://www.trec.texas.gov/forms/inspection-report-form",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/REI%207-6_fillable.pdf"
@@ -323,6 +361,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Seller's Disclosure about Groundwater and Surface Water Rights",
     "formId": "61-0",
+    "driveUrl": "https://drive.google.com/file/d/1UmJQA4azZW11pbZAWH-1AOwUSMwbwn_q/view?usp=drivesdk",
     "effectiveDate": "07/01/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/water-notice-sellers-disclosure-about-groundwater-and-surface-water-rights",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/61-0.pdf"
@@ -331,6 +370,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Seller's Disclosure Notice",
     "formId": "55-1",
+    "driveUrl": "https://drive.google.com/file/d/1Q49WTjZ2GS8qB5EJOt9wqb6ikaDomcrU/view?usp=drivesdk",
     "effectiveDate": "05/28/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/sellers-disclosure-notice",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/55-1.pdf"
@@ -339,6 +379,7 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Seller's Notice to Buyer of Removal of Contingency Under Addendum for \"Back-Up\" Contract",
     "formId": "62-0",
+    "driveUrl": "https://drive.google.com/file/d/16ea9PYq8si_xEFmPY851MWOeRTMI3Q9l/view?usp=drivesdk",
     "effectiveDate": "05/28/2026",
     "trecPageUrl": "https://www.trec.texas.gov/forms/sellers-notice-buyer-removal-contingency-under-addendum-back-contract",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/62-0.pdf"
@@ -347,9 +388,9 @@ export const TREC_FORMS: TrecForm[] = [
     "category": "Other Forms",
     "title": "Subdivision Information, Including Resale Certificate for Property Subject to Mandatory Membership in a Property Owners' Association",
     "formId": "37-5",
+    "driveUrl": "https://drive.google.com/file/d/1x6IChXR6SuK3Uk8mDwcg0y-je-QijNt0/view?usp=drivesdk",
     "effectiveDate": "02/10/2014",
     "trecPageUrl": "https://www.trec.texas.gov/forms/subdivision-information-including-resale-certificate-property-subject-mandatory-membership",
     "trecPdfUrl": "https://www.trec.texas.gov/sites/default/files/pdf-forms/37-5.pdf"
   }
 ];
-
