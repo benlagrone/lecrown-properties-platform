@@ -44,7 +44,6 @@ import {
   refreshGrantsContracts,
   refreshSbaSubnetContracts,
   refreshTrackedGovSources,
-  retryIntakeLead,
   revokeUserInvite,
   searchGovContracts,
   storeAuthToken,
@@ -713,7 +712,6 @@ export default function App() {
   const [downloadingFederalExport, setDownloadingFederalExport] = useState(false);
   const [downloadingGrantsExport, setDownloadingGrantsExport] = useState(false);
   const [funnelingContractId, setFunnelingContractId] = useState<string | null>(null);
-  const [retryingSubmissionId, setRetryingSubmissionId] = useState<string | null>(null);
   const [opportunitiesAuthStatus, setOpportunitiesAuthStatus] =
     useState<OpportunitiesAuthStatus>("checking");
   const googleButtonRef = useRef<HTMLDivElement | null>(null);
@@ -1255,21 +1253,6 @@ export default function App() {
       setMessage(getErrorMessage(error));
     } finally {
       setFunnelingContractId(null);
-    }
-  }
-
-  async function handleRetryIntakeSubmission(submissionId: string) {
-    setRetryingSubmissionId(submissionId);
-    setMessage("");
-    setShowFunnelShortcut(false);
-    try {
-      await retryIntakeLead(submissionId);
-      await Promise.all([refreshIntakeDashboard(), refreshContractsView()]);
-      setMessage("CRM submission retry completed.");
-    } catch (error) {
-      setMessage(getErrorMessage(error));
-    } finally {
-      setRetryingSubmissionId(null);
     }
   }
 
@@ -2617,74 +2600,6 @@ export default function App() {
           </article>
         </section>
 
-        <section className="panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Intake Submissions</p>
-              <h2>Recent CRM handoffs</h2>
-            </div>
-          </div>
-
-          {intakeDashboard.recent_contacts.length === 0 ? (
-            <p className="empty-state">No new contacts have initiated the marketing funnel yet.</p>
-          ) : (
-            <div className="table-shell">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Contact</th>
-                    <th>Source</th>
-                    <th>Context</th>
-                    <th>CRM</th>
-                    <th>Initiated</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {intakeDashboard.recent_contacts.map((contact) => (
-                    <tr key={contact.id}>
-                      <td>
-                        <strong>{contact.contact_name ?? "Unknown contact"}</strong>
-                        {contact.email ? <span>{contact.email}</span> : null}
-                        {contact.phone ? <span>{contact.phone}</span> : null}
-                      </td>
-                      <td>
-                        <strong>{contact.source_site}</strong>
-                        {contact.page_url ? (
-                          <a className="secondary-link" href={contact.page_url} target="_blank" rel="noreferrer">
-                            {contact.page_url}
-                          </a>
-                        ) : null}
-                        {contact.campaign ? <span>Campaign: {contact.campaign}</span> : null}
-                      </td>
-                      <td>
-                        <strong>{contact.business_context ?? "Unscoped"}</strong>
-                        <span>{contact.product_context ?? "No product context"}</span>
-                      </td>
-                      <td>
-                        <span className={getIntakeStatusBadgeClass(contact.delivery_status)}>
-                          {formatIntakeDeliveryStatus(contact.delivery_status)}
-                        </span>
-                        {contact.delivery_record_id ? <span>Record: {contact.delivery_record_id}</span> : null}
-                        {contact.delivery_error ? <span>{contact.delivery_error}</span> : null}
-                        {contact.delivery_status === "failed" ? (
-                          <button
-                            type="button"
-                            className="secondary-link retry-inline-button"
-                            onClick={() => void handleRetryIntakeSubmission(contact.id)}
-                            disabled={retryingSubmissionId === contact.id}
-                          >
-                            {retryingSubmissionId === contact.id ? "Retrying..." : "Retry CRM"}
-                          </button>
-                        ) : null}
-                      </td>
-                      <td>{formatTimestamp(contact.created_at)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
       </>
     );
   }
@@ -4271,30 +4186,6 @@ function formatIntakeConnectionStatus(status: string): string {
     return "Open";
   }
   return status;
-}
-
-function formatIntakeDeliveryStatus(status: string): string {
-  if (status === "delivered") {
-    return "Delivered";
-  }
-  if (status === "failed") {
-    return "Failed";
-  }
-  if (status === "pending") {
-    return "Pending";
-  }
-  if (status === "processed") {
-    return "Processed";
-  }
-  return status;
-}
-
-function formatIntakeSourceType(sourceType: string): string {
-  return sourceType
-    .split(/[_-]/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
 }
 
 function getIntakeStatusBadgeClass(status: string): string {
