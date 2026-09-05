@@ -2577,64 +2577,39 @@ export default function App() {
           <article className="panel">
             <div className="panel-heading">
               <div>
-                <p className="eyebrow">Source Sites</p>
-                <h2>Observed intake activity</h2>
+                <p className="eyebrow">CRM Contacts</p>
+                <h2>Recent contacts</h2>
               </div>
             </div>
 
-            {intakeDashboard.source_sites.length === 0 ? (
-              <p className="empty-state">No marketing sources have submitted leads yet.</p>
+            {intakeDashboard.crm_contacts_error ? (
+              <p className="empty-state">{intakeDashboard.crm_contacts_error}</p>
+            ) : intakeDashboard.crm_contacts.length === 0 ? (
+              <p className="empty-state">No contacts are available in CRM yet.</p>
             ) : (
               <div className="stack">
-                {intakeDashboard.source_sites.map((source) => (
-                  <article className="content-card" key={source.source_site}>
+                {intakeDashboard.crm_contacts.map((contact) => (
+                  <article className="content-card" key={contact.id}>
                     <div className="content-meta">
                       <div>
-                        <strong>{source.source_site}</strong>
-                        <span>{formatIntakeSourceType(source.source_type)}</span>
+                        <strong>{contact.name}</strong>
+                        {contact.account_name ? <span>{contact.account_name}</span> : null}
                       </div>
-                      <span className={getIntakeStatusBadgeClass(source.last_delivery_status)}>
-                        {formatIntakeDeliveryStatus(source.last_delivery_status)}
-                      </span>
+                      <span className="status-badge status-badge-good">CRM contact</span>
                     </div>
 
-                    {source.business_contexts.length > 0 || source.form_providers.length > 0 || source.form_names.length > 0 ? (
+                    {contact.email || contact.phone ? (
                       <div className="tag-row">
-                        {source.business_contexts.map((context) => (
-                          <span className="tag" key={`${source.source_site}-context-${context}`}>
-                            {context}
-                          </span>
-                        ))}
-                        {source.form_providers.map((provider) => (
-                          <span className="tag" key={`${source.source_site}-provider-${provider}`}>
-                            {provider}
-                          </span>
-                        ))}
-                        {source.form_names.map((formName) => (
-                          <span className="tag" key={`${source.source_site}-form-${formName}`}>
-                            {formName}
-                          </span>
-                        ))}
+                        {contact.email ? <span className="tag">{contact.email}</span> : null}
+                        {contact.phone ? <span className="tag">{contact.phone}</span> : null}
                       </div>
                     ) : null}
 
-                    <div className="status-stack">
-                      <span>Submissions: {source.total_submissions}</span>
-                      <span>New 24h: {source.new_contacts_today}</span>
-                      <span>New 7d: {source.new_contacts_7d}</span>
-                      <span>CRM delivered: {source.delivered_submissions}</span>
-                      <span>CRM failed: {source.failed_submissions}</span>
-                      <span>Latest contact: {source.last_contact_name ?? "Unknown contact"}</span>
-                      <span>Last submission: {formatTimestamp(source.last_submission_at)}</span>
-                      {source.last_page_url ? (
-                        <span>
-                          Last page:{" "}
-                          <a className="secondary-link" href={source.last_page_url} target="_blank" rel="noreferrer">
-                            {source.last_page_url}
-                          </a>
-                        </span>
-                      ) : null}
-                    </div>
+                    {contact.created_at ? (
+                      <div className="status-stack">
+                        <span>Added: {formatTimestamp(contact.created_at)}</span>
+                      </div>
+                    ) : null}
                   </article>
                 ))}
               </div>
@@ -2645,8 +2620,8 @@ export default function App() {
         <section className="panel">
           <div className="panel-heading">
             <div>
-              <p className="eyebrow">New Contacts</p>
-              <h2>Recent initiations</h2>
+              <p className="eyebrow">Intake Submissions</p>
+              <h2>Recent CRM handoffs</h2>
             </div>
           </div>
 

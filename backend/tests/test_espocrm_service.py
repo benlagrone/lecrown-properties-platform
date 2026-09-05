@@ -47,6 +47,24 @@ class EspoCRMServiceTest(unittest.TestCase):
             lead_request_headers["Espo-Authorization"],
         )
 
+    def test_list_contacts_reads_the_contact_collection(self) -> None:
+        original_base_url = espocrm_service.settings.espocrm_base_url
+        original_api_key = espocrm_service.settings.espocrm_api_key
+        espocrm_service.settings.espocrm_base_url = "https://crm.example.test"
+        espocrm_service.settings.espocrm_api_key = "api-key"
+        try:
+            response = mock_json_response({"list": [{"id": "contact-1", "name": "Jie Huang"}]})
+            with patch("app.services.espocrm_service.requests.get", return_value=response) as mock_get:
+                contacts = espocrm_service.list_contacts(limit=8)
+        finally:
+            espocrm_service.settings.espocrm_base_url = original_base_url
+            espocrm_service.settings.espocrm_api_key = original_api_key
+
+        self.assertEqual([{"id": "contact-1", "name": "Jie Huang"}], contacts)
+        self.assertEqual("https://crm.example.test/api/v1/Contact", mock_get.call_args.args[0])
+        self.assertEqual(8, mock_get.call_args.kwargs["params"]["maxSize"])
+        self.assertEqual("api-key", mock_get.call_args.kwargs["headers"]["X-Api-Key"])
+
 
 if __name__ == "__main__":
     unittest.main()

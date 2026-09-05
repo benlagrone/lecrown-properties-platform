@@ -110,11 +110,22 @@ export interface IntakeDashboardRecentContact {
   created_at: string;
 }
 
+export interface IntakeDashboardCRMContact {
+  id: string;
+  name: string;
+  email?: string | null;
+  phone?: string | null;
+  account_name?: string | null;
+  created_at?: string | null;
+}
+
 export interface IntakeDashboard {
   overview: IntakeDashboardOverview;
   connections: IntakeDashboardConnection[];
   source_sites: IntakeDashboardSourceSite[];
   recent_contacts: IntakeDashboardRecentContact[];
+  crm_contacts: IntakeDashboardCRMContact[];
+  crm_contacts_error?: string | null;
 }
 
 export interface LoginRequest {

@@ -271,6 +271,20 @@ def _delivery_error_message(submission: IntakeLeadSubmission) -> str | None:
     return None
 
 
+def _crm_contact_name(contact: dict[str, Any]) -> str:
+    name = str(contact.get("name") or "").strip()
+    if name:
+        return name
+    return " ".join(
+        part
+        for part in (
+            str(contact.get("firstName") or "").strip(),
+            str(contact.get("lastName") or "").strip(),
+        )
+        if part
+    ) or "Unnamed contact"
+
+
 def get_dashboard(
     db: Session,
     *,
@@ -390,6 +404,27 @@ def get_dashboard(
     ]
 
     crm_is_configured = espocrm_service.is_configured()
+    crm_contacts: list[dict[str, Any]] = []
+    crm_contacts_error: str | None = None
+    if crm_is_configured:
+        try:
+            crm_contacts = [
+                {
+                    "id": str(contact.get("id") or ""),
+                    "name": _crm_contact_name(contact),
+                    "email": contact.get("emailAddress"),
+                    "phone": contact.get("phoneNumber"),
+                    "account_name": contact.get("accountName"),
+                    "created_at": contact.get("createdAt"),
+                }
+                for contact in espocrm_service.list_contacts(limit=recent_limit)
+                if contact.get("id")
+            ]
+        except espocrm_service.EspoCRMError:
+            crm_contacts_error = "CRM contacts could not be loaded. Refresh to try again."
+    else:
+        crm_contacts_error = "CRM contact access is not configured."
+
     connections = [
         {
             "key": "intake_api",
@@ -412,6 +447,8 @@ def get_dashboard(
         "connections": connections,
         "source_sites": normalized_sources,
         "recent_contacts": recent_contacts,
+        "crm_contacts": crm_contacts,
+        "crm_contacts_error": crm_contacts_error,
     }
 
 

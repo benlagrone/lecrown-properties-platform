@@ -130,6 +130,42 @@ class IntakeServiceTest(unittest.TestCase):
 
         engine.dispose()
 
+    def test_dashboard_returns_contacts_read_from_crm(self) -> None:
+        engine = create_engine("sqlite:///:memory:", future=True)
+        Session = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
+        Base.metadata.create_all(bind=engine)
+
+        with Session() as db:
+            with patch("app.services.intake_service.espocrm_service.is_configured", return_value=True):
+                with patch(
+                    "app.services.intake_service.espocrm_service.list_contacts",
+                    return_value=[
+                        {
+                            "id": "contact-1",
+                            "firstName": "Jie",
+                            "lastName": "Huang",
+                            "emailAddress": "jie@example.test",
+                            "accountName": "LeCrown Properties",
+                            "createdAt": "2026-09-04 12:00:00",
+                        }
+                    ],
+                ):
+                    dashboard = intake_service.get_dashboard(db)
+
+        self.assertEqual(
+            {
+                "id": "contact-1",
+                "name": "Jie Huang",
+                "email": "jie@example.test",
+                "phone": None,
+                "account_name": "LeCrown Properties",
+                "created_at": "2026-09-04 12:00:00",
+            },
+            dashboard["crm_contacts"][0],
+        )
+        self.assertIsNone(dashboard["crm_contacts_error"])
+        engine.dispose()
+
 
 if __name__ == "__main__":
     unittest.main()

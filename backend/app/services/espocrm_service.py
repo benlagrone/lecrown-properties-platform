@@ -125,3 +125,38 @@ def create_lead(payload: dict[str, Any]) -> dict[str, Any]:
         )
 
     return body
+
+
+def list_contacts(*, limit: int = 12) -> list[dict[str, Any]]:
+    url = f"{_base_url()}/Contact"
+    try:
+        response = requests.get(
+            url,
+            params={
+                "maxSize": limit,
+                "orderBy": "createdAt",
+                "order": "desc",
+                "select": "id,name,firstName,lastName,emailAddress,phoneNumber,accountName,createdAt",
+            },
+            headers=_headers(),
+            timeout=settings.espocrm_timeout_seconds,
+        )
+    except requests.RequestException as exc:
+        raise EspoCRMError("EspoCRM contact request failed") from exc
+
+    try:
+        body = response.json()
+    except ValueError:
+        body = {"raw": response.text}
+
+    if response.status_code < 200 or response.status_code >= 300:
+        raise EspoCRMError(
+            "EspoCRM contact request returned a non-success response",
+            status_code=response.status_code,
+            body=body,
+        )
+
+    records = body.get("list") if isinstance(body, dict) else None
+    if not isinstance(records, list):
+        raise EspoCRMError("EspoCRM contact response did not include a contact list")
+    return [record for record in records if isinstance(record, dict)]

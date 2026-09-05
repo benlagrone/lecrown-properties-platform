@@ -137,8 +137,19 @@ class IntakeDashboardRecentContactRead(BaseModel):
     created_at: datetime
 
 
+class IntakeDashboardCRMContactRead(BaseModel):
+    id: str
+    name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    account_name: Optional[str] = None
+    created_at: Optional[str] = None
+
+
 class IntakeDashboardRead(BaseModel):
     overview: IntakeDashboardOverview
     connections: list[IntakeDashboardConnectionRead] = Field(default_factory=list)
     source_sites: list[IntakeDashboardSourceSiteRead] = Field(default_factory=list)
     recent_contacts: list[IntakeDashboardRecentContactRead] = Field(default_factory=list)
+    crm_contacts: list[IntakeDashboardCRMContactRead] = Field(default_factory=list)
+    crm_contacts_error: Optional[str] = None
