@@ -578,7 +578,7 @@ const COH_APPLICATION_BLOCKERS: CertificationBlockerDetail = {
   ],
 };
 
-function buildInitialForm(tenant: Tenant = "development"): ContentCreate {
+function buildInitialForm(tenant: Tenant = "properties"): ContentCreate {
   return {
     tenant,
     type: "insight",
@@ -679,7 +679,7 @@ function getInviteCodeFromLocation(): string | null {
 
 export default function App() {
   const [view, setView] = useState<AdminView>(getCurrentView());
-  const [tenant, setTenant] = useState<Tenant>("development");
+  const tenant: Tenant = "properties";
   const [trecFormQuery, setTrecFormQuery] = useState("");
   const [form, setForm] = useState<ContentCreate>(buildInitialForm());
   const [contentItems, setContentItems] = useState<Content[]>([]);
@@ -1907,7 +1907,7 @@ export default function App() {
             <div className="panel-heading">
               <div>
                 <p className="eyebrow">Create Content</p>
-                <h2>Draft once, route by tenant</h2>
+                <h2>Create LeCrown Properties content</h2>
               </div>
             </div>
 
@@ -2029,13 +2029,13 @@ export default function App() {
             <div className="panel-heading">
               <div>
                 <p className="eyebrow">Content Queue</p>
-                <h2>{tenant === "development" ? "Development feed" : "Properties feed"}</h2>
+                <h2>Properties feed</h2>
               </div>
             </div>
 
             <div className="stack">
               {contentItems.length === 0 ? (
-                <p className="empty-state">No content has been created for this tenant yet.</p>
+                <p className="empty-state">No LeCrown Properties content has been created yet.</p>
               ) : (
                 contentItems.map((item) => (
                   <div className="content-card" key={item.id}>
@@ -2087,9 +2087,7 @@ export default function App() {
             </div>
           </div>
 
-          {tenant !== "properties" ? (
-            <p className="empty-state">Inquiry capture is scoped to the properties tenant.</p>
-          ) : inquiries.length === 0 ? (
+          {inquiries.length === 0 ? (
             <p className="empty-state">No inquiries captured yet.</p>
           ) : (
             <div className="table-shell">
@@ -4136,7 +4134,7 @@ export default function App() {
           <p className="eyebrow">LeCrown Platform</p>
           <h1>
             {view === "dashboard"
-              ? "Multi-tenant content and inquiry control room"
+              ? "LeCrown Properties content and inquiry workspace"
               : view === "intake"
               ? "Marketing intake and CRM funnel"
               : view === "certifications"
@@ -4153,7 +4151,7 @@ export default function App() {
           </h1>
           <p className="hero-copy">
             {view === "dashboard"
-              ? "One backend, two business surfaces. Switch tenants, create content, and push live when the publishing path is ready."
+              ? "Create property content, manage inquiries, and publish through the LeCrown Properties workflow."
               : view === "intake"
               ? "Inspect intake health across connected sites, confirm CRM delivery is wired, and review the newest contacts entering the funnel."
               : view === "certifications"
@@ -4170,23 +4168,7 @@ export default function App() {
           </p>
         </div>
 
-        {view === "dashboard" ? (
-          <label className="tenant-picker">
-            <span>Tenant</span>
-            <select
-              value={tenant}
-              onChange={(event) => {
-                const nextTenant = event.target.value as Tenant;
-                setTenant(nextTenant);
-                setForm(buildInitialForm(nextTenant));
-              }}
-            >
-              <option value="development">Development</option>
-              <option value="properties">Properties</option>
-            </select>
-          </label>
-        ) : (
-          <div className="hero-side">
+        <div className="hero-side">
             <span className="hero-badge">
               {opportunitiesAuthStatus === "authenticated"
                 ? currentAdmin?.is_admin
@@ -4207,8 +4189,7 @@ export default function App() {
                 Log out
               </button>
             ) : null}
-          </div>
-        )}
+        </div>
       </section>
 
       {message ? (
