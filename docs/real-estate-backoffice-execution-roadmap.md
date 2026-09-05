@@ -20,12 +20,18 @@ functions commonly associated with commercial electronic-signature products.
 It is not a claim of legal equivalence, certification, or feature parity with
 any particular vendor.
 
+A standalone local Signing Rooms prototype now provides interaction and PDF
+generation evidence for part of this target. Its exact capabilities,
+limitations, source commit, and migration mapping are recorded in the
+[LeCrown Sign Prototype Handoff](./lecrown-sign-prototype-handoff.md). The
+prototype is not integrated, deployed, or authorized for live signatures.
+
 This is an execution roadmap, not evidence that any phase is implemented,
 deployed, legally approved, or production-ready.
 
 ## Implementation Progress
 
-Last updated: 2026-08-26.
+Last updated: 2026-09-04.
 
 The first five sprint slices now have a tested backend foundation:
 
@@ -48,6 +54,15 @@ The first five sprint slices now have a tested backend foundation:
   service tests are implemented with brokerage-scoped authorization and audit
   events. Parties, milestones, checklists, review decisions, and UI workflows
   belong to subsequent slices.
+
+Separately, a standalone React Signing Rooms prototype at local commit
+`f6441b0` demonstrates PDF upload, source hashing, ordered recipients,
+electronic-record consent, typed signatures, application audit events, and an
+executed PDF with appended signature and audit pages. This is reusable product
+and workflow evidence only. It does not satisfy Phase 6 because its state,
+tokens, signing links, events, and files are browser-local and it lacks the
+server enforcement, identity, delivery, artifact sealing, custody, and recovery
+controls required below.
 
 The production-shaped delivery bundle now builds the employee app for
 same-origin `/api` access at `backoffice.lecrownproperties.com`, runs Alembic
@@ -82,7 +97,8 @@ The repository does not yet provide:
 - agent, client, representation, property, transaction, or commission models;
 - durable document/object storage;
 - document versioning or immutable evidence custody;
-- electronic-signature envelopes or signer identity workflows;
+- platform-integrated electronic-signature envelopes or signer identity
+  workflows (a separate local reference prototype exists);
 - broker compliance review queues;
 - transaction deadlines and checklists;
 - production-grade migration, job, notification, or audit infrastructure;

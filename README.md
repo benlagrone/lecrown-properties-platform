@@ -45,6 +45,20 @@ synthetic fixtures and the existing authenticated admin boundary. Live provider
 calls, credentials, deployment, CRM writes, outreach, public listing display,
 and bulk export remain separately gated.
 
+## LeCrown Sign
+
+The platform's first-party transaction-signing target and the validated local
+Signing Rooms reference prototype are documented at:
+
+- [LeCrown Sign Prototype Handoff](./docs/lecrown-sign-prototype-handoff.md)
+- [LeCrown Properties Back-Office Execution Roadmap](./docs/real-estate-backoffice-execution-roadmap.md#lecrown-sign-execution-specification)
+
+Current state is `reference prototype only`. The prototype is not integrated
+into this repository, deployed to `sign.lecrownproperties.com`, or approved for
+live client signatures. Production delivery, identity, server-side custody,
+tamper-resistant finalization, retention, and broker/legal/security acceptance
+remain gated.
+
 ## API overview
 
 - `POST /content/create`
