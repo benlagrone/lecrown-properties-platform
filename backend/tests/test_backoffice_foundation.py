@@ -9,9 +9,15 @@ from sqlalchemy.orm import sessionmaker
 
 from app.core.database import Base
 from app.core.security import create_privileged_token, decode_access_token
-from app.models.backoffice import AuditEvent, DocumentVersion
+from app.models.backoffice import AuditEvent, ContractDraftFact, DocumentVersion
 from app.models.user import User
-from app.services import auth_service, authorization_service, backoffice_service, document_service
+from app.services import (
+    auth_service,
+    authorization_service,
+    backoffice_service,
+    contract_draft_service,
+    document_service,
+)
 from app.utils.helpers import new_uuid
 
 
@@ -184,6 +190,206 @@ class BackofficeFoundationTest(unittest.TestCase):
                         media_type="application/pdf",
                         content=b"not a pdf",
                     )
+
+    def test_contract_draft_requires_sourced_confirmed_facts_before_review(self) -> None:
+        with self.Session() as db:
+            admin = self._user(db, "admin", admin=True)
+            broker = self._user(db, "broker")
+            agent = self._user(db, "agent")
+            brokerage = backoffice_service.create_brokerage(
+                db,
+                actor=admin,
+                legal_name="LeCrown Properties Incorporated",
+                license_number="9017127-BB",
+                designated_broker_user_id=broker.id,
+            )
+            backoffice_service.grant_role(
+                db,
+                actor=broker,
+                brokerage_id=brokerage.id,
+                user_id=agent.id,
+                role="agent",
+            )
+            profile = backoffice_service.create_agent_profile(
+                db,
+                actor=broker,
+                brokerage_id=brokerage.id,
+                user_id=agent.id,
+                license_number="TEST-AGENT",
+            )
+            backoffice_service.activate_agent_profile(
+                db,
+                actor=broker,
+                brokerage_id=brokerage.id,
+                profile_id=profile.id,
+            )
+            representation = backoffice_service.create_representation(
+                db,
+                actor=agent,
+                brokerage_id=brokerage.id,
+                client_name="Synthetic Buyer",
+                representation_type="buyer",
+                responsible_agent_user_id=agent.id,
+            )
+            transaction = backoffice_service.create_transaction(
+                db,
+                actor=agent,
+                brokerage_id=brokerage.id,
+                representation_id=representation.id,
+                transaction_type="purchase",
+                responsible_agent_user_id=agent.id,
+                property_reference="repliers:HAR:12345678",
+            )
+
+            draft = contract_draft_service.create(
+                db,
+                actor=agent,
+                brokerage_id=brokerage.id,
+                transaction_id=transaction.id,
+                selected_form_id="20-19",
+                selected_form_name="One to Four Family Residential Contract (Resale)",
+                selected_form_effective_date=None,
+                facts=[
+                    {
+                        "key": "property_address",
+                        "value": "100 Synthetic Lane, Houston, TX",
+                        "source_type": "repliers",
+                        "source_reference": "board=HAR;mlsNumber=12345678",
+                        "confirmation_status": "unconfirmed",
+                    }
+                ],
+            )
+            status, missing, _ = contract_draft_service.review_state(db, draft=draft)
+            self.assertEqual("collecting", status)
+            self.assertIn("sales_price", missing)
+
+            required_values = {
+                "buyer_names": ["Synthetic Buyer"],
+                "seller_names": ["Synthetic Seller"],
+                "property_address": "100 Synthetic Lane, Houston, TX",
+                "sales_price": 510000,
+                "earnest_money": 5000,
+                "option_fee": 250,
+                "option_period_days": 10,
+                "closing_date": "2026-10-15",
+                "financing_type": "conventional",
+            }
+            draft = contract_draft_service.update(
+                db,
+                actor=agent,
+                brokerage_id=brokerage.id,
+                draft_id=draft.id,
+                selected_form_id=None,
+                selected_form_name=None,
+                selected_form_effective_date=None,
+                facts=[
+                    {
+                        "key": key,
+                        "value": value,
+                        "source_type": "conversation",
+                        "source_reference": None,
+                        "confirmation_status": "unconfirmed",
+                    }
+                    for key, value in required_values.items()
+                ],
+            )
+            status, missing, questions = contract_draft_service.review_state(db, draft=draft)
+            self.assertEqual("review_required", status)
+            self.assertEqual([], missing)
+            self.assertEqual(1, len(questions))
+
+            draft = contract_draft_service.update(
+                db,
+                actor=agent,
+                brokerage_id=brokerage.id,
+                draft_id=draft.id,
+                selected_form_id=None,
+                selected_form_name=None,
+                selected_form_effective_date=None,
+                facts=[
+                    {
+                        "key": key,
+                        "value": value,
+                        "source_type": "user",
+                        "source_reference": None,
+                        "confirmation_status": "confirmed",
+                    }
+                    for key, value in required_values.items()
+                ],
+            )
+            status, missing, questions = contract_draft_service.review_state(db, draft=draft)
+            self.assertEqual("review_ready", status)
+            self.assertEqual([], missing)
+            self.assertEqual([], questions)
+            self.assertEqual(9, db.query(ContractDraftFact).count())
+
+            audit = (
+                db.query(AuditEvent)
+                .filter_by(action="contract_draft.updated")
+                .order_by(AuditEvent.created_at.desc())
+                .first()
+            )
+            self.assertEqual(9, audit.metadata_json["fact_count"])
+            self.assertNotIn("Synthetic Buyer", str(audit.metadata_json))
+
+    def test_contract_draft_repliers_fact_requires_provider_reference(self) -> None:
+        with self.Session() as db:
+            admin = self._user(db, "admin", admin=True)
+            brokerage = backoffice_service.create_brokerage(
+                db,
+                actor=admin,
+                legal_name="Test Brokerage",
+                license_number=None,
+                designated_broker_user_id=None,
+            )
+            profile = backoffice_service.create_agent_profile(
+                db,
+                actor=admin,
+                brokerage_id=brokerage.id,
+                user_id=admin.id,
+                license_number="TEST-ADMIN-BROKER",
+            )
+            backoffice_service.activate_agent_profile(
+                db,
+                actor=admin,
+                brokerage_id=brokerage.id,
+                profile_id=profile.id,
+            )
+            representation = backoffice_service.create_representation(
+                db,
+                actor=admin,
+                brokerage_id=brokerage.id,
+                client_name="Synthetic Client",
+                representation_type="buyer",
+                responsible_agent_user_id=admin.id,
+            )
+            transaction = backoffice_service.create_transaction(
+                db,
+                actor=admin,
+                brokerage_id=brokerage.id,
+                representation_id=representation.id,
+                transaction_type="purchase",
+                responsible_agent_user_id=admin.id,
+            )
+            with self.assertRaisesRegex(ValueError, "Repliers facts require a source reference"):
+                contract_draft_service.create(
+                    db,
+                    actor=admin,
+                    brokerage_id=brokerage.id,
+                    transaction_id=transaction.id,
+                    selected_form_id=None,
+                    selected_form_name=None,
+                    selected_form_effective_date=None,
+                    facts=[
+                        {
+                            "key": "property_address",
+                            "value": "100 Synthetic Lane",
+                            "source_type": "repliers",
+                            "source_reference": None,
+                            "confirmation_status": "unconfirmed",
+                        }
+                    ],
+                )
 
     def test_privileged_token_is_short_lived_and_bound_to_user(self) -> None:
         with self.Session() as db:

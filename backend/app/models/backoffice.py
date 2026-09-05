@@ -1,4 +1,14 @@
-from sqlalchemy import Boolean, Column, DateTime, Integer, JSON, String, Text, UniqueConstraint
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    Integer,
+    JSON,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.sql import func
 
 from app.core.database import Base
@@ -136,6 +146,41 @@ class Transaction(Base):
     status = Column(String, nullable=False, default="draft", index=True)
     confidentiality = Column(String, nullable=False, default="brokerage_confidential")
     version = Column(Integer, nullable=False, default=1)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+
+class ContractDraft(Base):
+    __tablename__ = "contract_drafts"
+
+    id = Column(String, primary_key=True)
+    brokerage_id = Column(String, nullable=False, index=True)
+    transaction_id = Column(String, nullable=False, index=True)
+    selected_form_id = Column(String, nullable=True, index=True)
+    selected_form_name = Column(String, nullable=True)
+    selected_form_effective_date = Column(Date, nullable=True)
+    status = Column(String, nullable=False, default="collecting", index=True)
+    version = Column(Integer, nullable=False, default=1)
+    created_by_user_id = Column(String, nullable=False, index=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+
+class ContractDraftFact(Base):
+    __tablename__ = "contract_draft_facts"
+    __table_args__ = (
+        UniqueConstraint("contract_draft_id", "fact_key", name="uq_contract_draft_fact_key"),
+    )
+
+    id = Column(String, primary_key=True)
+    contract_draft_id = Column(String, nullable=False, index=True)
+    fact_key = Column(String, nullable=False, index=True)
+    value_json = Column(JSON, nullable=False)
+    source_type = Column(String, nullable=False, index=True)
+    source_reference = Column(String, nullable=True)
+    confirmation_status = Column(String, nullable=False, default="unconfirmed", index=True)
+    entered_by_user_id = Column(String, nullable=False, index=True)
+    confirmed_by_user_id = Column(String, nullable=True, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 

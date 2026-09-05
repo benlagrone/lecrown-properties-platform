@@ -9,6 +9,10 @@ from app.schemas.backoffice import (
     AgentProfileRead,
     BrokerageCreate,
     BrokerageRead,
+    ContractDraftCreate,
+    ContractDraftRead,
+    ContractDraftUpdate,
+    ContractFactRead,
     RepresentationCreate,
     RepresentationRead,
     RoleAssignmentRead,
@@ -16,9 +20,40 @@ from app.schemas.backoffice import (
     TransactionCreate,
     TransactionRead,
 )
-from app.services import backoffice_service
+from app.services import backoffice_service, contract_draft_service
 
 router = APIRouter()
+
+
+def _contract_draft_read(db: Session, draft) -> ContractDraftRead:
+    status, missing_fields, questions = contract_draft_service.review_state(db, draft=draft)
+    facts = [
+        ContractFactRead(
+            key=fact.fact_key,
+            value=fact.value_json,
+            source_type=fact.source_type,
+            source_reference=fact.source_reference,
+            confirmation_status=fact.confirmation_status,
+            confirmed_by_user_id=fact.confirmed_by_user_id,
+        )
+        for fact in contract_draft_service.facts(db, draft_id=draft.id)
+    ]
+    return ContractDraftRead(
+        id=draft.id,
+        brokerage_id=draft.brokerage_id,
+        transaction_id=draft.transaction_id,
+        selected_form_id=draft.selected_form_id,
+        selected_form_name=draft.selected_form_name,
+        selected_form_effective_date=draft.selected_form_effective_date,
+        status=status,
+        version=draft.version,
+        facts=facts,
+        missing_fields=missing_fields,
+        questions=questions,
+        created_by_user_id=draft.created_by_user_id,
+        created_at=draft.created_at,
+        updated_at=draft.updated_at,
+    )
 
 
 def _translate_error(exc: Exception) -> HTTPException:
@@ -148,3 +183,77 @@ def create_transaction(
     except (PermissionError, LookupError, ValueError) as exc:
         raise _translate_error(exc) from exc
     return TransactionRead.model_validate(result)
+
+
+@router.post(
+    "/brokerages/{brokerage_id}/contract-drafts", response_model=ContractDraftRead
+)
+def create_contract_draft(
+    brokerage_id: str,
+    payload: ContractDraftCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> ContractDraftRead:
+    try:
+        result = contract_draft_service.create(
+            db,
+            actor=current_user,
+            brokerage_id=brokerage_id,
+            transaction_id=payload.transaction_id,
+            selected_form_id=payload.selected_form_id,
+            selected_form_name=payload.selected_form_name,
+            selected_form_effective_date=payload.selected_form_effective_date,
+            facts=[fact.model_dump() for fact in payload.facts],
+        )
+    except (PermissionError, LookupError, ValueError) as exc:
+        raise _translate_error(exc) from exc
+    return _contract_draft_read(db, result)
+
+
+@router.put(
+    "/brokerages/{brokerage_id}/contract-drafts/{draft_id}",
+    response_model=ContractDraftRead,
+)
+def update_contract_draft(
+    brokerage_id: str,
+    draft_id: str,
+    payload: ContractDraftUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> ContractDraftRead:
+    try:
+        result = contract_draft_service.update(
+            db,
+            actor=current_user,
+            brokerage_id=brokerage_id,
+            draft_id=draft_id,
+            selected_form_id=payload.selected_form_id,
+            selected_form_name=payload.selected_form_name,
+            selected_form_effective_date=payload.selected_form_effective_date,
+            facts=[fact.model_dump() for fact in payload.facts],
+        )
+    except (PermissionError, LookupError, ValueError) as exc:
+        raise _translate_error(exc) from exc
+    return _contract_draft_read(db, result)
+
+
+@router.get(
+    "/brokerages/{brokerage_id}/contract-drafts/{draft_id}",
+    response_model=ContractDraftRead,
+)
+def get_contract_draft(
+    brokerage_id: str,
+    draft_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> ContractDraftRead:
+    try:
+        result = contract_draft_service.get(
+            db,
+            actor=current_user,
+            brokerage_id=brokerage_id,
+            draft_id=draft_id,
+        )
+    except (PermissionError, LookupError, ValueError) as exc:
+        raise _translate_error(exc) from exc
+    return _contract_draft_read(db, result)
