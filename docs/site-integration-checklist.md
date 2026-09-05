@@ -101,9 +101,9 @@ Before launch, record:
 
 ## Reference Docs
 
-- [Site Integration Overview](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/site-integration-overview.md)
-- [Site API Reference](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/site-api-reference.md)
-- [AskMortgageAuthority Integration](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/askmortgageauthority-integration.md)
-- [Intake Architecture](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/intake-architecture.md)
-- [EspoCRM Strategy](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/espocrm-strategy.md)
-- [MediaStudio API Inventory](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/mediastudio-apis.md)
+- [Site Integration Overview](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/site-integration-overview.md)
+- [Site API Reference](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/site-api-reference.md)
+- [AskMortgageAuthority Integration](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/askmortgageauthority-integration.md)
+- [Intake Architecture](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/intake-architecture.md)
+- [EspoCRM Strategy](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/espocrm-strategy.md)
+- [MediaStudio API Inventory](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/mediastudio-apis.md)

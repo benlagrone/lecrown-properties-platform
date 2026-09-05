@@ -42,13 +42,13 @@ api.lecrowndevelopment.com.  A  89.117.151.145
 
 ## Files
 
-- [docker-compose.prod.yml](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/docker-compose.prod.yml)
-- [.env.example](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/.env.example)
-- [nginx.backoffice.lecrownproperties.com.conf](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/nginx.backoffice.lecrownproperties.com.conf)
-- [install-backoffice-vhost.sh](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/install-backoffice-vhost.sh)
-- [nginx.app.lecrowndevelopment.com.conf](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/nginx.app.lecrowndevelopment.com.conf)
-- [nginx.api.lecrowndevelopment.com.conf](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/nginx.api.lecrowndevelopment.com.conf)
-- [verify-backoffice.sh](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/verify-backoffice.sh)
+- [docker-compose.prod.yml](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/docker-compose.prod.yml)
+- [.env.example](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/.env.example)
+- [nginx.backoffice.lecrownproperties.com.conf](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/nginx.backoffice.lecrownproperties.com.conf)
+- [install-backoffice-vhost.sh](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/install-backoffice-vhost.sh)
+- [nginx.app.lecrowndevelopment.com.conf](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/nginx.app.lecrowndevelopment.com.conf)
+- [nginx.api.lecrowndevelopment.com.conf](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/nginx.api.lecrowndevelopment.com.conf)
+- [verify-backoffice.sh](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/verify-backoffice.sh)
 
 The older `app.lecrowndevelopment.com` config is retained only for an orderly
 transition. Do not make it the canonical user-facing URL.
@@ -64,7 +64,7 @@ transition. Do not make it the canonical user-facing URL.
 
 ## Environment
 
-Copy [.env.example](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/platform/.env.example) to `ops/platform/.env` and set real values before bringing the stack up.
+Copy [.env.example](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/platform/.env.example) to `ops/platform/.env` and set real values before bringing the stack up.
 
 `ops/platform/.env` is intentionally gitignored. Keep it only on the server or in your local untracked deploy workspace.
 

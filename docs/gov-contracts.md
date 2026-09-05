@@ -189,7 +189,7 @@ python3 -m app.jobs.refresh_gov_contracts --window-days 7 --gmail-limit 50
 Example cron entry for every Monday at 8:00 AM server local time:
 
 ```cron
-0 8 * * 1 cd /Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/backend && /usr/bin/python3 -m app.jobs.refresh_gov_contracts --window-days 7
+0 8 * * 1 cd /Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/backend && /usr/bin/python3 -m app.jobs.refresh_gov_contracts --window-days 7
 ```
 
 ## Matching

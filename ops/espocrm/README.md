@@ -11,9 +11,9 @@ Important boundary:
 
 ## Files
 
-- [crm.sh](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/espocrm/crm.sh)
-- [docker-compose.yml](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/espocrm/docker-compose.yml)
-- [.env.example](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/espocrm/.env.example)
+- [crm.sh](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/espocrm/crm.sh)
+- [docker-compose.yml](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/espocrm/docker-compose.yml)
+- [.env.example](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/espocrm/.env.example)
 
 ## Quick Start
 

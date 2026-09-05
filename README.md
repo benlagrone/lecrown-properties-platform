@@ -37,7 +37,7 @@ README.md
 The platform-owned handoff for an agents-only Repliers / HAR property
 intelligence workspace starts at:
 
-- [docs/repliers-har/README.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/repliers-har/README.md)
+- [docs/repliers-har/README.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/repliers-har/README.md)
 
 Current state is `licensing approved`, while the portal remains `sample-only`
 and no HAR response has been validated. The initial implementation must use
@@ -187,7 +187,7 @@ Video generation ownership:
 
 - The API orchestrates render requests.
 - A separate worker is expected to produce the video.
-- The backend can call that worker over HTTP through [backend/app/services/video_client.py](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/backend/app/services/video_client.py).
+- The backend can call that worker over HTTP through [backend/app/services/video_client.py](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/backend/app/services/video_client.py).
 
 ## MediaStudio APIs
 
@@ -195,7 +195,7 @@ Video generation ownership:
 
 See:
 
-- [docs/mediastudio-apis.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/mediastudio-apis.md)
+- [docs/mediastudio-apis.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/mediastudio-apis.md)
 
 Current stance:
 
@@ -252,9 +252,9 @@ Product direction:
 
 See:
 
-- [docs/feature-roadmap.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/feature-roadmap.md)
-- [docs/billing-platform-strategy.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/billing-platform-strategy.md)
-- [docs/lecrown-billing-workflow-spec.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/lecrown-billing-workflow-spec.md)
+- [docs/feature-roadmap.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/feature-roadmap.md)
+- [docs/billing-platform-strategy.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/billing-platform-strategy.md)
+- [docs/lecrown-billing-workflow-spec.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/lecrown-billing-workflow-spec.md)
 
 ## Government Contracting Knowledge
 
@@ -264,9 +264,9 @@ subcontracting, and supplier-diversity operating plan.
 
 See:
 
-- [Government Contracting Knowledge Base](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/government-contracting/README.md)
-- [Subcontracting and Market-Access Plan](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/government-contracting/subcontracting-market-access-plan.md)
-- [Government Contracts Platform Guide](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/gov-contracts.md)
+- [Government Contracting Knowledge Base](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/government-contracting/README.md)
+- [Subcontracting and Market-Access Plan](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/government-contracting/subcontracting-market-access-plan.md)
+- [Government Contracts Platform Guide](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/gov-contracts.md)
 
 ## CRM Direction
 
@@ -280,7 +280,7 @@ Current position:
 
 See:
 
-- [docs/espocrm-strategy.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/espocrm-strategy.md)
+- [docs/espocrm-strategy.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/espocrm-strategy.md)
 
 This is especially important because the current inquiry model is still `properties`-specific, while the CRM direction now spans:
 
@@ -294,17 +294,17 @@ Other sites should integrate against shared APIs, not shared folders or direct c
 
 Reference docs:
 
-- [Site Integration Overview](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/site-integration-overview.md)
-- [Site API Reference](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/site-api-reference.md)
-- [Site Integration Checklist](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/site-integration-checklist.md)
-- [AskMortgageAuthority Integration](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/askmortgageauthority-integration.md)
-- [Intake Architecture](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/intake-architecture.md)
+- [Site Integration Overview](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/site-integration-overview.md)
+- [Site API Reference](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/site-api-reference.md)
+- [Site Integration Checklist](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/site-integration-checklist.md)
+- [AskMortgageAuthority Integration](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/askmortgageauthority-integration.md)
+- [Intake Architecture](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/intake-architecture.md)
 
 ## CRM Ops Stack
 
 This repo now includes a dedicated EspoCRM deployment stack under:
 
-- [ops/espocrm](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/ops/espocrm)
+- [ops/espocrm](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/ops/espocrm)
 
 Use it as:
 
@@ -325,7 +325,7 @@ The opportunities page now supports:
 
 See:
 
-- [docs/gov-contracts.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/gov-contracts.md)
+- [docs/gov-contracts.md](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/gov-contracts.md)
 - separate runtime boundary
 
 Repo-level commands:

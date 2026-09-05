@@ -150,6 +150,6 @@ Recommended first downstream target:
 
 ## Related Docs
 
-- [AskMortgageAuthority Integration](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/askmortgageauthority-integration.md)
-- [Site Integration Overview](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/site-integration-overview.md)
-- [EspoCRM Strategy](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-platform/docs/espocrm-strategy.md)
+- [AskMortgageAuthority Integration](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/askmortgageauthority-integration.md)
+- [Site Integration Overview](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/site-integration-overview.md)
+- [EspoCRM Strategy](/Users/benjaminlagrone/Documents/projects/real-estate/lecrown-properties-platform/docs/espocrm-strategy.md)
