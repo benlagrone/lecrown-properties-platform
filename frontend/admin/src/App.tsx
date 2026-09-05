@@ -862,7 +862,7 @@ export default function App() {
 
   useEffect(() => {
     if (
-      (view !== "opportunities" && view !== "certifications" && view !== "sources") ||
+      (view !== "certifications" && view !== "sources") ||
       opportunitiesAuthStatus !== "authenticated"
     ) {
       return;
@@ -881,7 +881,7 @@ export default function App() {
   ]);
 
   useEffect(() => {
-    if (view !== "intake" || opportunitiesAuthStatus !== "authenticated") {
+    if ((view !== "intake" && view !== "opportunities") || opportunitiesAuthStatus !== "authenticated") {
       return;
     }
     void refreshIntakeDashboard();
@@ -924,7 +924,9 @@ export default function App() {
       setContractCapabilities(capabilities);
       setAuthMessage("");
       setOpportunitiesAuthStatus("authenticated");
-      if (view === "opportunities" || view === "certifications" || view === "sources") {
+      if (view === "opportunities") {
+        await refreshIntakeDashboard();
+      } else if (view === "certifications" || view === "sources") {
         await refreshContractsView();
       }
     } catch {
@@ -1269,7 +1271,9 @@ export default function App() {
       const capabilities = await getGovContractCapabilities();
       setContractCapabilities(capabilities);
       setOpportunitiesAuthStatus("authenticated");
-      if (view === "opportunities" || view === "certifications" || view === "sources") {
+      if (view === "opportunities") {
+        await refreshIntakeDashboard();
+      } else if (view === "certifications" || view === "sources") {
         await refreshContractsView();
       }
       setMessage("Signed in.");
@@ -1308,7 +1312,9 @@ export default function App() {
       setInviteUsername("");
       setInvitePassword("");
       setInvitePasswordConfirm("");
-      if (view === "opportunities" || view === "certifications" || view === "sources") {
+      if (view === "opportunities") {
+        await refreshIntakeDashboard();
+      } else if (view === "certifications" || view === "sources") {
         await refreshContractsView();
       }
       setMessage("Invite accepted. Your account is ready.");
@@ -2600,6 +2606,141 @@ export default function App() {
           </article>
         </section>
 
+      </>
+    );
+  }
+
+  function renderCRMOpportunitiesPage() {
+    if (!intakeDashboard && refreshingIntakeDashboard) {
+      return (
+        <section className="panel auth-panel">
+          <p className="empty-state">Loading CRM opportunities and leads...</p>
+        </section>
+      );
+    }
+
+    if (!intakeDashboard) {
+      return (
+        <section className="panel auth-panel">
+          <div className="panel-heading">
+            <div>
+              <p className="eyebrow">CRM Pipeline</p>
+              <h2>No CRM pipeline data loaded yet</h2>
+            </div>
+            <button type="button" onClick={() => void refreshIntakeDashboard()} disabled={refreshingIntakeDashboard}>
+              {refreshingIntakeDashboard ? "Refreshing..." : "Refresh CRM"}
+            </button>
+          </div>
+        </section>
+      );
+    }
+
+    return (
+      <>
+        <section className="panel">
+          <div className="panel-heading contract-toolbar">
+            <div>
+              <p className="eyebrow">CRM Pipeline</p>
+              <h2>CRM opportunities and leads</h2>
+            </div>
+            <button type="button" onClick={() => void refreshIntakeDashboard()} disabled={refreshingIntakeDashboard}>
+              {refreshingIntakeDashboard ? "Refreshing..." : "Refresh CRM"}
+            </button>
+          </div>
+          <p className="panel-subcopy">
+            Review opportunities and leads stored in EspoCRM. Government sourcing records are managed separately under Sources.
+          </p>
+          <div className="metric-row">
+            <div className="metric-pill">
+              <strong>{intakeDashboard.crm_opportunities.length}</strong>
+              <span>CRM opportunities</span>
+            </div>
+            <div className="metric-pill">
+              <strong>{intakeDashboard.crm_leads.length}</strong>
+              <span>CRM leads</span>
+            </div>
+          </div>
+        </section>
+
+        {intakeDashboard.crm_pipeline_error ? (
+          <section className="panel">
+            <p className="empty-state">{intakeDashboard.crm_pipeline_error}</p>
+          </section>
+        ) : (
+          <section className="grid intake-grid">
+            <article className="panel">
+              <div className="panel-heading">
+                <div>
+                  <p className="eyebrow">CRM Opportunities</p>
+                  <h2>Current opportunities</h2>
+                </div>
+              </div>
+              {intakeDashboard.crm_opportunities.length === 0 ? (
+                <p className="empty-state">No opportunities are available in CRM yet.</p>
+              ) : (
+                <div className="stack">
+                  {intakeDashboard.crm_opportunities.map((opportunity) => (
+                    <article className="content-card" key={opportunity.id}>
+                      <div className="content-meta">
+                        <div>
+                          <strong>{opportunity.name}</strong>
+                          {opportunity.account_name ? <span>{opportunity.account_name}</span> : null}
+                        </div>
+                        <span className="status-badge status-badge-neutral">
+                          {opportunity.stage ?? "No stage"}
+                        </span>
+                      </div>
+                      <div className="status-stack">
+                        {opportunity.amount != null ? (
+                          <span>Amount: {formatCRMAmount(opportunity.amount, opportunity.currency)}</span>
+                        ) : null}
+                        {opportunity.probability != null ? <span>Probability: {opportunity.probability}%</span> : null}
+                        {opportunity.close_date ? <span>Close date: {opportunity.close_date}</span> : null}
+                        {opportunity.created_at ? <span>Added: {formatTimestamp(opportunity.created_at)}</span> : null}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </article>
+
+            <article className="panel">
+              <div className="panel-heading">
+                <div>
+                  <p className="eyebrow">CRM Leads</p>
+                  <h2>Current leads</h2>
+                </div>
+              </div>
+              {intakeDashboard.crm_leads.length === 0 ? (
+                <p className="empty-state">No leads are available in CRM yet.</p>
+              ) : (
+                <div className="stack">
+                  {intakeDashboard.crm_leads.map((lead) => (
+                    <article className="content-card" key={lead.id}>
+                      <div className="content-meta">
+                        <div>
+                          <strong>{lead.name}</strong>
+                          {lead.account_name ? <span>{lead.account_name}</span> : null}
+                        </div>
+                        <span className="status-badge status-badge-neutral">{lead.status ?? "No status"}</span>
+                      </div>
+                      {lead.email || lead.phone ? (
+                        <div className="tag-row">
+                          {lead.email ? <span className="tag">{lead.email}</span> : null}
+                          {lead.phone ? <span className="tag">{lead.phone}</span> : null}
+                        </div>
+                      ) : null}
+                      <div className="status-stack">
+                        {lead.source ? <span>Source: {lead.source}</span> : null}
+                        {lead.created_at ? <span>Added: {formatTimestamp(lead.created_at)}</span> : null}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </article>
+          </section>
+        )}
       </>
     );
   }
@@ -4037,7 +4178,7 @@ export default function App() {
                 ? "Protected invoice creation and Gmail draft workflow"
               : view === "profile"
                 ? "Profile and Workspace access"
-                : "Opportunity list and lead-funnel review"}
+                : "CRM opportunities and leads"}
           </h1>
           <p className="hero-copy">
             {view === "dashboard"
@@ -4054,7 +4195,7 @@ export default function App() {
                 ? "Prepare LeCrown invoices, generate the exact platform PDF on the backend, and create a Gmail draft with the PDF attached without leaving the admin surface."
               : view === "profile"
                 ? "Review your verified LeCrown Google Workspace identity and application role."
-                : "Review matched federal forecast opportunities, Grants.gov opportunities, SBA SUBNet subcontracting opportunities, ESBD opportunities, and Gmail RFQs, then push strong fits into the CRM lead funnel."}
+                : "Review the current opportunity and lead records held in EspoCRM."}
           </p>
         </div>
 
@@ -4114,7 +4255,7 @@ export default function App() {
             ? renderBillingPage()
           : view === "profile"
             ? renderProfilePage()
-            : renderOpportunitiesPage()}
+            : renderCRMOpportunitiesPage()}
     </main>
   );
 }
@@ -4170,6 +4311,17 @@ function formatTimestamp(value: string): string {
     return value;
   }
   return parsed.toLocaleString();
+}
+
+function formatCRMAmount(amount: number, currency?: string | null): string {
+  if (!currency) {
+    return amount.toLocaleString();
+  }
+  try {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(amount);
+  } catch {
+    return `${amount.toLocaleString()} ${currency}`;
+  }
 }
 
 function formatIntakeConnectionStatus(status: string): string {

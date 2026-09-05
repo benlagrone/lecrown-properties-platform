@@ -119,6 +119,29 @@ export interface IntakeDashboardCRMContact {
   created_at?: string | null;
 }
 
+export interface IntakeDashboardCRMLead {
+  id: string;
+  name: string;
+  email?: string | null;
+  phone?: string | null;
+  account_name?: string | null;
+  status?: string | null;
+  source?: string | null;
+  created_at?: string | null;
+}
+
+export interface IntakeDashboardCRMOpportunity {
+  id: string;
+  name: string;
+  account_name?: string | null;
+  amount?: number | null;
+  currency?: string | null;
+  stage?: string | null;
+  probability?: number | null;
+  close_date?: string | null;
+  created_at?: string | null;
+}
+
 export interface IntakeDashboard {
   overview: IntakeDashboardOverview;
   connections: IntakeDashboardConnection[];
@@ -126,6 +149,9 @@ export interface IntakeDashboard {
   recent_contacts: IntakeDashboardRecentContact[];
   crm_contacts: IntakeDashboardCRMContact[];
   crm_contacts_error?: string | null;
+  crm_leads: IntakeDashboardCRMLead[];
+  crm_opportunities: IntakeDashboardCRMOpportunity[];
+  crm_pipeline_error?: string | null;
 }
 
 export interface LoginRequest {

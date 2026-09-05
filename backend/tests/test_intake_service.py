@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from contextlib import ExitStack
 from unittest.mock import patch
 
 from sqlalchemy import create_engine
@@ -130,27 +131,59 @@ class IntakeServiceTest(unittest.TestCase):
 
         engine.dispose()
 
-    def test_dashboard_returns_contacts_read_from_crm(self) -> None:
+    def test_dashboard_returns_contacts_opportunities_and_leads_read_from_crm(self) -> None:
         engine = create_engine("sqlite:///:memory:", future=True)
         Session = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
         Base.metadata.create_all(bind=engine)
 
         with Session() as db:
-            with patch("app.services.intake_service.espocrm_service.is_configured", return_value=True):
-                with patch(
-                    "app.services.intake_service.espocrm_service.list_contacts",
-                    return_value=[
-                        {
-                            "id": "contact-1",
-                            "firstName": "Jie",
-                            "lastName": "Huang",
-                            "emailAddress": "jie@example.test",
-                            "accountName": "LeCrown Properties",
-                            "createdAt": "2026-09-04 12:00:00",
-                        }
-                    ],
-                ):
-                    dashboard = intake_service.get_dashboard(db)
+            with ExitStack() as stack:
+                stack.enter_context(
+                    patch("app.services.intake_service.espocrm_service.is_configured", return_value=True)
+                )
+                stack.enter_context(
+                    patch(
+                        "app.services.intake_service.espocrm_service.list_contacts",
+                        return_value=[
+                            {
+                                "id": "contact-1",
+                                "firstName": "Jie",
+                                "lastName": "Huang",
+                                "emailAddress": "jie@example.test",
+                                "accountName": "LeCrown Properties",
+                                "createdAt": "2026-09-04 12:00:00",
+                            }
+                        ],
+                    )
+                )
+                stack.enter_context(
+                    patch(
+                        "app.services.intake_service.espocrm_service.list_leads",
+                        return_value=[
+                            {
+                                "id": "lead-1",
+                                "name": "Buyer Lead",
+                                "status": "New",
+                                "source": "Web Site",
+                            }
+                        ],
+                    )
+                )
+                stack.enter_context(
+                    patch(
+                        "app.services.intake_service.espocrm_service.list_opportunities",
+                        return_value=[
+                            {
+                                "id": "opportunity-1",
+                                "name": "Residential Purchase",
+                                "stage": "Prospecting",
+                                "amount": 450000,
+                                "currency": "USD",
+                            }
+                        ],
+                    )
+                )
+                dashboard = intake_service.get_dashboard(db)
 
         self.assertEqual(
             {
@@ -164,6 +197,11 @@ class IntakeServiceTest(unittest.TestCase):
             dashboard["crm_contacts"][0],
         )
         self.assertIsNone(dashboard["crm_contacts_error"])
+        self.assertEqual("Buyer Lead", dashboard["crm_leads"][0]["name"])
+        self.assertEqual("New", dashboard["crm_leads"][0]["status"])
+        self.assertEqual("Residential Purchase", dashboard["crm_opportunities"][0]["name"])
+        self.assertEqual(450000, dashboard["crm_opportunities"][0]["amount"])
+        self.assertIsNone(dashboard["crm_pipeline_error"])
         engine.dispose()
 
 

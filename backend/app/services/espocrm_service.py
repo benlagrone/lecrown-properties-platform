@@ -127,8 +127,8 @@ def create_lead(payload: dict[str, Any]) -> dict[str, Any]:
     return body
 
 
-def list_contacts(*, limit: int = 12) -> list[dict[str, Any]]:
-    url = f"{_base_url()}/Contact"
+def _list_collection(*, entity_type: str, select: str, limit: int) -> list[dict[str, Any]]:
+    url = f"{_base_url()}/{entity_type}"
     try:
         response = requests.get(
             url,
@@ -136,13 +136,13 @@ def list_contacts(*, limit: int = 12) -> list[dict[str, Any]]:
                 "maxSize": limit,
                 "orderBy": "createdAt",
                 "order": "desc",
-                "select": "id,name,firstName,lastName,emailAddress,phoneNumber,accountName,createdAt",
+                "select": select,
             },
             headers=_headers(),
             timeout=settings.espocrm_timeout_seconds,
         )
     except requests.RequestException as exc:
-        raise EspoCRMError("EspoCRM contact request failed") from exc
+        raise EspoCRMError(f"EspoCRM {entity_type} request failed") from exc
 
     try:
         body = response.json()
@@ -151,12 +151,36 @@ def list_contacts(*, limit: int = 12) -> list[dict[str, Any]]:
 
     if response.status_code < 200 or response.status_code >= 300:
         raise EspoCRMError(
-            "EspoCRM contact request returned a non-success response",
+            f"EspoCRM {entity_type} request returned a non-success response",
             status_code=response.status_code,
             body=body,
         )
 
     records = body.get("list") if isinstance(body, dict) else None
     if not isinstance(records, list):
-        raise EspoCRMError("EspoCRM contact response did not include a contact list")
+        raise EspoCRMError(f"EspoCRM {entity_type} response did not include a record list")
     return [record for record in records if isinstance(record, dict)]
+
+
+def list_contacts(*, limit: int = 12) -> list[dict[str, Any]]:
+    return _list_collection(
+        entity_type="Contact",
+        select="id,name,firstName,lastName,emailAddress,phoneNumber,accountName,createdAt",
+        limit=limit,
+    )
+
+
+def list_leads(*, limit: int = 12) -> list[dict[str, Any]]:
+    return _list_collection(
+        entity_type="Lead",
+        select="id,name,firstName,lastName,emailAddress,phoneNumber,status,source,accountName,createdAt",
+        limit=limit,
+    )
+
+
+def list_opportunities(*, limit: int = 12) -> list[dict[str, Any]]:
+    return _list_collection(
+        entity_type="Opportunity",
+        select="id,name,accountName,amount,currency,stage,probability,closeDate,createdAt",
+        limit=limit,
+    )

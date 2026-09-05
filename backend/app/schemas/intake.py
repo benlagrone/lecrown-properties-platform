@@ -146,6 +146,29 @@ class IntakeDashboardCRMContactRead(BaseModel):
     created_at: Optional[str] = None
 
 
+class IntakeDashboardCRMLeadRead(BaseModel):
+    id: str
+    name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    account_name: Optional[str] = None
+    status: Optional[str] = None
+    source: Optional[str] = None
+    created_at: Optional[str] = None
+
+
+class IntakeDashboardCRMOpportunityRead(BaseModel):
+    id: str
+    name: str
+    account_name: Optional[str] = None
+    amount: Optional[float] = None
+    currency: Optional[str] = None
+    stage: Optional[str] = None
+    probability: Optional[float] = None
+    close_date: Optional[str] = None
+    created_at: Optional[str] = None
+
+
 class IntakeDashboardRead(BaseModel):
     overview: IntakeDashboardOverview
     connections: list[IntakeDashboardConnectionRead] = Field(default_factory=list)
@@ -153,3 +176,6 @@ class IntakeDashboardRead(BaseModel):
     recent_contacts: list[IntakeDashboardRecentContactRead] = Field(default_factory=list)
     crm_contacts: list[IntakeDashboardCRMContactRead] = Field(default_factory=list)
     crm_contacts_error: Optional[str] = None
+    crm_leads: list[IntakeDashboardCRMLeadRead] = Field(default_factory=list)
+    crm_opportunities: list[IntakeDashboardCRMOpportunityRead] = Field(default_factory=list)
+    crm_pipeline_error: Optional[str] = None

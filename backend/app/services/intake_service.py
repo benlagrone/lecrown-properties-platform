@@ -285,6 +285,11 @@ def _crm_contact_name(contact: dict[str, Any]) -> str:
     ) or "Unnamed contact"
 
 
+def _optional_text(value: Any) -> str | None:
+    text = str(value or "").strip()
+    return text or None
+
+
 def get_dashboard(
     db: Session,
     *,
@@ -406,6 +411,9 @@ def get_dashboard(
     crm_is_configured = espocrm_service.is_configured()
     crm_contacts: list[dict[str, Any]] = []
     crm_contacts_error: str | None = None
+    crm_leads: list[dict[str, Any]] = []
+    crm_opportunities: list[dict[str, Any]] = []
+    crm_pipeline_error: str | None = None
     if crm_is_configured:
         try:
             crm_contacts = [
@@ -422,8 +430,42 @@ def get_dashboard(
             ]
         except espocrm_service.EspoCRMError:
             crm_contacts_error = "CRM contacts could not be loaded. Refresh to try again."
+
+        try:
+            crm_leads = [
+                {
+                    "id": str(lead.get("id") or ""),
+                    "name": _crm_contact_name(lead),
+                    "email": _optional_text(lead.get("emailAddress")),
+                    "phone": _optional_text(lead.get("phoneNumber")),
+                    "account_name": _optional_text(lead.get("accountName")),
+                    "status": _optional_text(lead.get("status")),
+                    "source": _optional_text(lead.get("source")),
+                    "created_at": _optional_text(lead.get("createdAt")),
+                }
+                for lead in espocrm_service.list_leads(limit=recent_limit)
+                if lead.get("id")
+            ]
+            crm_opportunities = [
+                {
+                    "id": str(opportunity.get("id") or ""),
+                    "name": _optional_text(opportunity.get("name")) or "Unnamed opportunity",
+                    "account_name": _optional_text(opportunity.get("accountName")),
+                    "amount": opportunity.get("amount"),
+                    "currency": _optional_text(opportunity.get("currency")),
+                    "stage": _optional_text(opportunity.get("stage")),
+                    "probability": opportunity.get("probability"),
+                    "close_date": _optional_text(opportunity.get("closeDate")),
+                    "created_at": _optional_text(opportunity.get("createdAt")),
+                }
+                for opportunity in espocrm_service.list_opportunities(limit=recent_limit)
+                if opportunity.get("id")
+            ]
+        except espocrm_service.EspoCRMError:
+            crm_pipeline_error = "CRM opportunities and leads could not be loaded. Refresh to try again."
     else:
         crm_contacts_error = "CRM contact access is not configured."
+        crm_pipeline_error = "CRM opportunity access is not configured."
 
     connections = [
         {
@@ -449,6 +491,9 @@ def get_dashboard(
         "recent_contacts": recent_contacts,
         "crm_contacts": crm_contacts,
         "crm_contacts_error": crm_contacts_error,
+        "crm_leads": crm_leads,
+        "crm_opportunities": crm_opportunities,
+        "crm_pipeline_error": crm_pipeline_error,
     }
 
 
