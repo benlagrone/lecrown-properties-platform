@@ -99,7 +99,6 @@ type AdminView =
   | "dashboard"
   | "intake"
   | "opportunities"
-  | "certifications"
   | "sources"
   | "trec-forms"
   | "billing"
@@ -615,7 +614,7 @@ function getCurrentView(): AdminView {
     return "billing";
   }
   if (window.location.hash.startsWith("#/certifications")) {
-    return "certifications";
+    return "dashboard";
   }
   if (window.location.hash.startsWith("#/sources")) {
     return "sources";
@@ -636,10 +635,6 @@ function navigateToView(view: AdminView): void {
   }
   if (view === "sources") {
     window.location.hash = "#/sources";
-    return;
-  }
-  if (view === "certifications") {
-    window.location.hash = "#/certifications";
     return;
   }
   if (view === "trec-forms") {
@@ -760,6 +755,10 @@ export default function App() {
 
   useEffect(() => {
     function handleHashChange() {
+      if (window.location.hash.startsWith("#/certifications")) {
+        window.location.hash = "#/";
+        return;
+      }
       setView(getCurrentView());
       const presetInviteCode = getInviteCodeFromLocation();
       if (presetInviteCode) {
@@ -768,6 +767,9 @@ export default function App() {
     }
 
     window.addEventListener("hashchange", handleHashChange);
+    if (window.location.hash.startsWith("#/certifications")) {
+      window.location.hash = "#/";
+    }
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
@@ -862,7 +864,7 @@ export default function App() {
 
   useEffect(() => {
     if (
-      (view !== "certifications" && view !== "sources") ||
+      view !== "sources" ||
       opportunitiesAuthStatus !== "authenticated"
     ) {
       return;
@@ -926,7 +928,7 @@ export default function App() {
       setOpportunitiesAuthStatus("authenticated");
       if (view === "opportunities") {
         await refreshIntakeDashboard();
-      } else if (view === "certifications" || view === "sources") {
+      } else if (view === "sources") {
         await refreshContractsView();
       }
     } catch {
@@ -1273,7 +1275,7 @@ export default function App() {
       setOpportunitiesAuthStatus("authenticated");
       if (view === "opportunities") {
         await refreshIntakeDashboard();
-      } else if (view === "certifications" || view === "sources") {
+      } else if (view === "sources") {
         await refreshContractsView();
       }
       setMessage("Signed in.");
@@ -1314,7 +1316,7 @@ export default function App() {
       setInvitePasswordConfirm("");
       if (view === "opportunities") {
         await refreshIntakeDashboard();
-      } else if (view === "certifications" || view === "sources") {
+      } else if (view === "sources") {
         await refreshContractsView();
       }
       setMessage("Invite accepted. Your account is ready.");
@@ -2138,27 +2140,10 @@ export default function App() {
             </div>
           </div>
           <p className="panel-subcopy">
-            Federal forecast, Grants.gov, SBA SUBNet, ESBD opportunities, and Gmail RFQs live on a separate page and
-            require LeCrown Google Workspace sign-in.
+            Review the current opportunity and lead records held in EspoCRM from the dedicated pipeline page.
           </p>
         </section>
 
-        <section className="panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Certifications</p>
-              <h2>Dedicated progress page</h2>
-            </div>
-            <div className="action-row">
-              <button type="button" onClick={() => navigateToView("certifications")}>
-                Open certifications page
-              </button>
-            </div>
-          </div>
-          <p className="panel-subcopy">
-            Track SAM.gov, SBA, City of Houston, Texas HUB, buyer portal gates, reusable evidence, document portal slots, and capability statement drafts.
-          </p>
-        </section>
       </>
     );
   }
@@ -4125,13 +4110,6 @@ export default function App() {
         </button>
         <button
           type="button"
-          className={`nav-pill${view === "certifications" ? " nav-pill-active" : ""}`}
-          onClick={() => navigateToView("certifications")}
-        >
-          Certifications
-        </button>
-        <button
-          type="button"
           className={`nav-pill${view === "sources" ? " nav-pill-active" : ""}`}
           onClick={() => navigateToView("sources")}
         >
@@ -4168,8 +4146,6 @@ export default function App() {
               ? "LeCrown Properties content and inquiry workspace"
               : view === "intake"
               ? "Marketing intake and CRM funnel"
-              : view === "certifications"
-              ? "Government certification progress tracker"
               : view === "sources"
               ? "eProcurement source automation registry"
               : view === "trec-forms"
@@ -4185,8 +4161,6 @@ export default function App() {
               ? "Create property content, manage inquiries, and publish through the LeCrown Properties workflow."
               : view === "intake"
               ? "Inspect intake health across connected sites, confirm CRM delivery is wired, and review the newest contacts entering the funnel."
-              : view === "certifications"
-              ? "Track certification lanes, buyer portal requirements, reusable evidence, document portal slots, and capability statement drafts before bid deadlines start compressing the work."
               : view === "sources"
               ? "Review every procurement source feeding the funnel, see what automation is active for each one, and identify which portals still need a deeper integration."
               : view === "trec-forms"
@@ -4245,8 +4219,6 @@ export default function App() {
         ? renderDashboard()
         : view === "intake"
           ? renderIntakePage()
-          : view === "certifications"
-            ? renderCertificationsPage()
           : view === "sources"
             ? renderSourcesPage()
           : view === "trec-forms"
