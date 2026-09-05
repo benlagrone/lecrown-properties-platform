@@ -99,7 +99,6 @@ type AdminView =
   | "dashboard"
   | "intake"
   | "opportunities"
-  | "sources"
   | "trec-forms"
   | "billing"
   | "profile";
@@ -617,7 +616,7 @@ function getCurrentView(): AdminView {
     return "dashboard";
   }
   if (window.location.hash.startsWith("#/sources")) {
-    return "sources";
+    return "dashboard";
   }
   if (window.location.hash.startsWith("#/trec-forms")) {
     return "trec-forms";
@@ -631,10 +630,6 @@ function navigateToView(view: AdminView): void {
   }
   if (view === "opportunities") {
     window.location.hash = "#/opportunities";
-    return;
-  }
-  if (view === "sources") {
-    window.location.hash = "#/sources";
     return;
   }
   if (view === "trec-forms") {
@@ -755,7 +750,10 @@ export default function App() {
 
   useEffect(() => {
     function handleHashChange() {
-      if (window.location.hash.startsWith("#/certifications")) {
+      if (
+        window.location.hash.startsWith("#/certifications") ||
+        window.location.hash.startsWith("#/sources")
+      ) {
         window.location.hash = "#/";
         return;
       }
@@ -767,7 +765,10 @@ export default function App() {
     }
 
     window.addEventListener("hashchange", handleHashChange);
-    if (window.location.hash.startsWith("#/certifications")) {
+    if (
+      window.location.hash.startsWith("#/certifications") ||
+      window.location.hash.startsWith("#/sources")
+    ) {
       window.location.hash = "#/";
     }
     return () => window.removeEventListener("hashchange", handleHashChange);
@@ -863,26 +864,6 @@ export default function App() {
   ]);
 
   useEffect(() => {
-    if (
-      view !== "sources" ||
-      opportunitiesAuthStatus !== "authenticated"
-    ) {
-      return;
-    }
-    void refreshContractsView();
-  }, [
-    matchesOnlyFilter,
-    minPriorityScoreFilter,
-    openOnlyFilter,
-    opportunityCategoryTab,
-    selectedOpportunitySourceFilter,
-    selectedOpportunitySourceContextFilter,
-    selectedOpportunityTagFilter,
-    opportunityKeywordFilter,
-    opportunityPage,
-  ]);
-
-  useEffect(() => {
     if ((view !== "intake" && view !== "opportunities") || opportunitiesAuthStatus !== "authenticated") {
       return;
     }
@@ -928,8 +909,6 @@ export default function App() {
       setOpportunitiesAuthStatus("authenticated");
       if (view === "opportunities") {
         await refreshIntakeDashboard();
-      } else if (view === "sources") {
-        await refreshContractsView();
       }
     } catch {
       clearAuthToken();
@@ -1275,8 +1254,6 @@ export default function App() {
       setOpportunitiesAuthStatus("authenticated");
       if (view === "opportunities") {
         await refreshIntakeDashboard();
-      } else if (view === "sources") {
-        await refreshContractsView();
       }
       setMessage("Signed in.");
     } catch (error) {
@@ -1316,8 +1293,6 @@ export default function App() {
       setInvitePasswordConfirm("");
       if (view === "opportunities") {
         await refreshIntakeDashboard();
-      } else if (view === "sources") {
-        await refreshContractsView();
       }
       setMessage("Invite accepted. Your account is ready.");
       navigateToView("profile");
@@ -2770,9 +2745,6 @@ export default function App() {
               <button type="button" onClick={() => navigateToView("opportunities")}>
                 Review opportunities
               </button>
-              <button type="button" className="secondary-link" onClick={() => navigateToView("sources")}>
-                Check source coverage
-              </button>
             </div>
           </div>
 
@@ -4110,13 +4082,6 @@ export default function App() {
         </button>
         <button
           type="button"
-          className={`nav-pill${view === "sources" ? " nav-pill-active" : ""}`}
-          onClick={() => navigateToView("sources")}
-        >
-          Sources
-        </button>
-        <button
-          type="button"
           className={`nav-pill${view === "trec-forms" ? " nav-pill-active" : ""}`}
           onClick={() => navigateToView("trec-forms")}
         >
@@ -4146,8 +4111,6 @@ export default function App() {
               ? "LeCrown Properties content and inquiry workspace"
               : view === "intake"
               ? "Marketing intake and CRM funnel"
-              : view === "sources"
-              ? "eProcurement source automation registry"
               : view === "trec-forms"
               ? "Texas promulgated forms library"
               : view === "billing"
@@ -4161,8 +4124,6 @@ export default function App() {
               ? "Create property content, manage inquiries, and publish through the LeCrown Properties workflow."
               : view === "intake"
               ? "Inspect intake health across connected sites, confirm CRM delivery is wired, and review the newest contacts entering the funnel."
-              : view === "sources"
-              ? "Review every procurement source feeding the funnel, see what automation is active for each one, and identify which portals still need a deeper integration."
               : view === "trec-forms"
               ? "Find current TREC contracts, addenda, notices, disclosures, and related forms by name or form number."
               : view === "billing"
@@ -4219,8 +4180,6 @@ export default function App() {
         ? renderDashboard()
         : view === "intake"
           ? renderIntakePage()
-          : view === "sources"
-            ? renderSourcesPage()
           : view === "trec-forms"
             ? renderTrecFormsPage()
           : view === "billing"
